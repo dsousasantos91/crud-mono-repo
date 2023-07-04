@@ -1,0 +1,26 @@
+spring:
+    datasource:
+        driverClassName: org.h2.Driver
+        name: crud
+        password:
+        url: jdbc:h2:mem:testdb
+        username: sa
+    flyway:
+        enabled: true
+    h2:
+        console:
+            enabled: true
+    jackson:
+        date-format: yyyy-MM-dd
+        deserialization:
+            fail-on-unknown-properties: true
+    jpa:
+        database-platform: org.hibernate.dialect.H2Dialect
+        hibernate:
+            ddl-auto: none
+        show-sql: true
+    mvc:
+        pathmatch:
+            matching-strategy: ant_path_matcher
+
+
