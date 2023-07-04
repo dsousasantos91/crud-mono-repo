@@ -1,8 +1,8 @@
 package br.com.crud.controller;
 
-import br.com.crud.domain.Cliente;
 import br.com.crud.event.RecursoCriadoEvent;
 import br.com.crud.service.ClienteService;
+import br.com.crud.service.dto.ClienteDTO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -34,34 +34,34 @@ public class ClienteController {
 
 	@ApiOperation(value = "Listagem de clientes.")
 	@GetMapping
-	public ResponseEntity<List<Cliente>> pesquisar() {
-		List<Cliente> clientes = pessoaService.pesquisar();
-		return ResponseEntity.ok(clientes);
+	public ResponseEntity<List<ClienteDTO>> pesquisar() {
+		List<ClienteDTO> response = pessoaService.pesquisar();
+		return ResponseEntity.ok(response);
 	}
 
 	@ApiOperation(value = "Informações sobre um cliente específico.")
 	@GetMapping(path = "/{id}", produces = "application/json")
-	public ResponseEntity<Cliente> buscaoPorId(@PathVariable Long id) {
-		Cliente cliente = pessoaService.buscarPorId(id);
-		return ResponseEntity.ok(cliente);
+	public ResponseEntity<ClienteDTO> buscaoPorId(@PathVariable Long id) {
+		ClienteDTO response = pessoaService.buscarPorId(id);
+		return ResponseEntity.ok(response);
 	}
 
 	@ApiOperation(value = "Cadastro de cliente.")
 	@PostMapping(produces = "application/json")
-	public ResponseEntity<Cliente> salvar(@Valid @RequestBody Cliente cliente, HttpServletResponse response) {
-		Cliente clienteSalva = this.pessoaService.salvar(cliente);
-		publish.publishEvent(new RecursoCriadoEvent(this, response, cliente.getId()));
-		return ResponseEntity.status(HttpStatus.CREATED).body(clienteSalva);
+	public ResponseEntity<ClienteDTO> salvar(@Valid @RequestBody ClienteDTO clienteDTO, HttpServletResponse servletResponse) {
+		ClienteDTO dtoResponse = this.pessoaService.salvar(clienteDTO);
+		publish.publishEvent(new RecursoCriadoEvent(this, servletResponse, dtoResponse.getId()));
+		return ResponseEntity.status(HttpStatus.CREATED).body(dtoResponse);
 	}
 
-	@ApiOperation(value = "Atualização de pessoa.")
+	@ApiOperation(value = "Atualização de cliente.")
 	@PutMapping(path = "/{id}", produces = "application/json")
-	public ResponseEntity<Cliente> atualizar(@PathVariable Long id, @Valid @RequestBody Cliente cliente) {
-		Cliente clienteSalva = this.pessoaService.atualizar(id, cliente);
-		return ResponseEntity.ok(clienteSalva);
+	public ResponseEntity<ClienteDTO> atualizar(@PathVariable Long id, @Valid @RequestBody ClienteDTO clienteDTO) {
+		ClienteDTO dtoResponse = this.pessoaService.atualizar(id, clienteDTO);
+		return ResponseEntity.ok(dtoResponse);
 	}
 
-	@ApiOperation(value = "Remoção de pessoa e seus endereços.")
+	@ApiOperation(value = "Remoção de cliente e seus endereços.")
 	@DeleteMapping(path = "/{id}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void remover(@PathVariable Long id) {

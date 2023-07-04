@@ -2,13 +2,13 @@ package br.com.crud.exception;
 
 public class GenericNotFoundException extends RuntimeException {
 
-    private static final String message = "Resource not found";
+    private static final String MESSAGE = "Recurso não encontrado";
 
     public GenericNotFoundException() {
-        super(message);
+        super(MESSAGE);
     }
 
     public GenericNotFoundException(String message) {
-        super(message);
+        super(MESSAGE + ": " + message);
     }
 }
